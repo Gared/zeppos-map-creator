@@ -1,7 +1,7 @@
 # Zepp OS map creator
 This repository contains tools and resources for creating maps for ZeppOS devices. Zepp OS is the operating system used in various smartwatches and fitness trackers.
 
-This project wraps the code of https://codeberg.org/Freeyourgadget/Gadgetbridge-tools into a docker container for easier usage.
+This project wraps the code of https://codeberg.org/Freeyourgadget/Gadgetbridge-tools into a docker container for easier usage (based on the [instructions from gadgetbridge](https://gadgetbridge.org/basics/topics/zeppos/#maps-upload)).
 
 ## Usage
 To create a custom map for Zepp OS, follow these steps:
