@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - 'main'
+  pull_request:
 
 jobs:
   push_to_registry:
@@ -65,6 +66,7 @@ jobs:
           unzip -Z1 "$output" | grep -q '\.img$'
 
       - name: Push tested Docker image
+        if: github.event_name != 'pull_request'
         env:
           IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
         run: |
