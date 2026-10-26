@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - 'main'
+  pull_request:
 
 jobs:
   push_to_registry:
@@ -32,13 +33,47 @@ jobs:
           images: gared/zeppos-map-creator
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=tag
+            type=ref,event=pr
 
-      - name: Build and push Docker image
-        id: push
+      - name: Build Docker image
         uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Test map generation
+        env:
+          IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          set -euo pipefail
+          image="${IMAGE_TAGS%%$'\n'*}"
+          test -n "$image"
+          mkdir -p "$RUNNER_TEMP/zeppos-smoke"
+          cp tests/fixtures/smoke-test.osm "$RUNNER_TEMP/zeppos-smoke/"
+          docker run --rm \
+            --volume "$RUNNER_TEMP/zeppos-smoke:/data" \
+            --entrypoint osmium \
+            "$image" cat /data/smoke-test.osm -o /data/smoke-test.osm.pbf
+          docker run --rm \
+            --volume "$RUNNER_TEMP/zeppos-smoke:/data" \
+            "$image" 0 0 /data/smoke-test.osm.pbf
+          output="$RUNNER_TEMP/zeppos-smoke/map0.0-0.0.zip"
+          test -s "$output"
+          unzip -t "$output"
+          unzip -Z1 "$output" | grep -q '\.img$'
+
+      - name: Push tested Docker image
+        if: github.event_name != 'pull_request'
+        env:
+          IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r image; do
+            if [ -n "$image" ]; then
+              docker push "$image"
+            fi
+          done <<< "$IMAGE_TAGS"

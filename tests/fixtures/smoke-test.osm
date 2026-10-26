@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="zeppos-map-creator-smoke-test">
+  <bounds minlat="-0.01" minlon="-0.01" maxlat="0.01" maxlon="0.01"/>
+  <node id="1" lat="-0.005" lon="-0.005" version="1"/>
+  <node id="2" lat="0.005" lon="0.005" version="1"/>
+  <way id="3" version="1">
+    <nd ref="1"/>
+    <nd ref="2"/>
+    <tag k="highway" v="residential"/>
+    <tag k="name" v="Smoke Test Road"/>
+  </way>
+</osm>
