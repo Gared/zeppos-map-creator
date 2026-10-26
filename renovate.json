@@ -12,7 +12,7 @@
       "matchStrings": [
         "git -C /opt/Gadgetbridge-tools fetch --depth 1 origin (?<currentDigest>[a-f0-9]{40})"
       ],
-      "currentValueTemplate": "HEAD",
+      "currentValueTemplate": "main",
       "packageNameTemplate": "https://codeberg.org/Freeyourgadget/Gadgetbridge-tools",
       "datasourceTemplate": "git-refs"
     }
