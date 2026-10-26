@@ -2,5 +2,19 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^Dockerfile$/"
+      ],
+      "matchStrings": [
+        "git -C /opt/Gadgetbridge-tools fetch --depth 1 origin (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "HEAD",
+      "packageNameTemplate": "https://codeberg.org/Freeyourgadget/Gadgetbridge-tools",
+      "datasourceTemplate": "git-refs"
+    }
   ]
 }
