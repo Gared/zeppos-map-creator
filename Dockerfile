@@ -12,7 +12,7 @@ RUN apt-get update \
 
 RUN git init /opt/Gadgetbridge-tools \
   && git -C /opt/Gadgetbridge-tools remote add origin https://codeberg.org/Freeyourgadget/Gadgetbridge-tools.git \
-  && git -C /opt/Gadgetbridge-tools fetch --depth 1 origin 268eabb9269b1c53cca6a01a499c4205db1dd5cb \
+  && git -C /opt/Gadgetbridge-tools fetch --depth 1 origin 4e4a6512ce0886446c94129bb4be0845f5ea09da \
   && git -C /opt/Gadgetbridge-tools checkout --detach FETCH_HEAD
 
 WORKDIR /data
